@@ -11,8 +11,8 @@ class LayawayService:
         self.users_client = UsersClient()
         self.mongo_client = MongoDbClient()
 
-    async def __get_logged_user(self, headers: AuthHeaders):
-        user = await self.users_client.get_logged_user(headers.to_dict())
+    def __get_logged_user(self, headers: AuthHeaders):
+        user = self.users_client.get_logged_user(headers.to_dict())
         if not user:
             raise HTTPException(401, "Invalid Credentials")
         return user
@@ -33,8 +33,8 @@ class LayawayService:
             reverse = True
         comics.sort(key=lambda x: x[sort_param], reverse=reverse)
 
-    async def get_comic_list(self, headers: AuthHeaders, params: SortParams):
-        user = await self.__get_logged_user(headers)
+    def get_comic_list(self, headers: AuthHeaders, params: SortParams):
+        user = self.__get_logged_user(headers)
         layaway = self.__get_layaway(user.get("id"))
         comics = layaway.get("comics")
         self.__sort_comics(comics, params.sortBy)

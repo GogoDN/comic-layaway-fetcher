@@ -26,10 +26,10 @@ class LayawayOut(BaseModel):
 
 
 @router.get("/", response_model=LayawayOut)
-async def get_list(
+def get_list(
     headers: AuthHeaders = Depends(AuthHeaders),
     params: SortParams = Depends(SortParams),
     service: LayawayService = Depends(LayawayService),
 ):
     params.validate_params()
-    return await service.get_comic_list(headers, params)
+    return service.get_comic_list(headers, params)
